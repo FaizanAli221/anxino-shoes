@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Heart, ShoppingBag, Star, Eye } from "lucide-react";
+import { Heart, ShoppingBag, Star, Eye, Ban } from "lucide-react";
 
 const formatPKR = (n) => `Rs. ${(n || 0).toLocaleString("en-PK")}`;
 
@@ -26,10 +26,13 @@ export default function ProductCard({
   const sizes = product.sizes || [36, 37, 38, 39, 40, 41];
   const outOfStock = product.outOfStock || [];
   const title = product.title || product.name;
+  const isSoldOut = Boolean(product.isOutOfStock);
 
   return (
     <article
-      className="group relative flex flex-col bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+      className={`group relative flex flex-col bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ${
+        isSoldOut ? "opacity-90" : ""
+      }`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -40,7 +43,9 @@ export default function ProductCard({
             alt={title}
             onError={() => setImgError(true)}
             onClick={() => onViewDetails(product)}
-            className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className={`w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 ${
+              isSoldOut ? "grayscale-20" : ""
+            }`}
             loading="lazy"
           />
         ) : (
@@ -54,12 +59,16 @@ export default function ProductCard({
           </div>
         )}
 
-        {/* Badge */}
-        {product.badge && (
+        {/* Badges: Out of Stock takes priority */}
+        {isSoldOut ? (
+          <span className="absolute top-2.5 left-2.5 bg-neutral-900 text-white text-[10px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded shadow-md border border-neutral-700">
+            Out of Stock
+          </span>
+        ) : product.badge ? (
           <span className="absolute top-2.5 left-2.5 bg-pink-600 text-white text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded shadow-sm">
             {product.badge}
           </span>
-        )}
+        ) : null}
 
         {/* Wishlist Button */}
         <button
@@ -87,27 +96,44 @@ export default function ProductCard({
           <Eye size={16} className="text-neutral-700 hover:text-pink-600" />
         </button>
 
-        {/* Add to bag quick action */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onAddToBag(product, selectedSize || sizes[0]);
-          }}
-          className={`absolute inset-x-3 bottom-3 bg-neutral-900 text-white text-xs font-semibold py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg ${
-            hovered
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-2 pointer-events-none sm:pointer-events-auto"
-          }`}
-        >
-          <ShoppingBag size={14} />
-          Quick Add {selectedSize ? `(Size ${selectedSize})` : ""}
-        </button>
+        {/* Action Button: Sold Out vs Quick Add */}
+        {isSoldOut ? (
+          <button
+            onClick={() => onViewDetails(product)}
+            className="absolute inset-x-3 bottom-3 bg-neutral-800/90 text-white text-xs font-semibold py-2.5 rounded-lg shadow-lg flex items-center justify-center gap-1.5 backdrop-blur-xs cursor-pointer hover:bg-neutral-900 transition-colors"
+          >
+            <Ban size={14} className="text-red-400" />
+            <span>Sold Out · View Details</span>
+          </button>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToBag(product, selectedSize || sizes[0]);
+            }}
+            className={`absolute inset-x-3 bottom-3 bg-neutral-900 text-white text-xs font-semibold py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg ${
+              hovered
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-2 pointer-events-none sm:pointer-events-auto"
+            }`}
+          >
+            <ShoppingBag size={14} />
+            Quick Add {selectedSize ? `(Size ${selectedSize})` : ""}
+          </button>
+        )}
       </div>
 
       <div className="p-3.5 flex flex-col flex-1">
-        <span className="text-[10px] text-pink-600 font-semibold tracking-wider uppercase">
-          {product.category || "Footwear"}
-        </span>
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] text-pink-600 font-semibold tracking-wider uppercase">
+            {product.category || "Footwear"}
+          </span>
+          {isSoldOut && (
+            <span className="text-[10px] font-bold text-red-600 uppercase">
+              Sold Out
+            </span>
+          )}
+        </div>
 
         <h3
           onClick={() => onViewDetails(product)}
@@ -148,7 +174,7 @@ export default function ProductCard({
         {/* Sizes row */}
         <div className="mt-3 flex flex-wrap gap-1">
           {sizes.map((sz) => {
-            const isOut = outOfStock.includes(sz);
+            const isOut = isSoldOut || outOfStock.includes(sz);
             const isSelected = selectedSize === sz;
             return (
               <button
@@ -157,11 +183,12 @@ export default function ProductCard({
                 onClick={() => setSelectedSize(isSelected ? null : sz)}
                 className={`text-[10px] w-6 h-6 rounded border flex items-center justify-center transition-colors ${
                   isOut
-                    ? "border-gray-100 text-gray-300 line-through cursor-not-allowed"
+                    ? "border-gray-100 text-gray-300 line-through cursor-not-allowed bg-gray-50"
                     : isSelected
                     ? "border-pink-600 bg-pink-600 text-white font-bold"
                     : "border-gray-200 text-neutral-600 hover:border-neutral-900"
                 }`}
+                title={isOut ? `Size ${sz} Out of Stock` : `Size ${sz}`}
               >
                 {sz}
               </button>

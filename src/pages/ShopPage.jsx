@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import ProductCard from "../components/ProductCard.jsx";
-import { Filter, Search, SlidersHorizontal } from "lucide-react";
+import { Filter, Search, SlidersHorizontal, CheckSquare, Square } from "lucide-react";
 
 export default function ShopPage({
   categories,
@@ -15,6 +15,7 @@ export default function ShopPage({
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [priceMax, setPriceMax] = useState(6000);
+  const [onlyInStock, setOnlyInStock] = useState(false);
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
@@ -22,6 +23,11 @@ export default function ShopPage({
     // Category filter
     if (selectedCategory && selectedCategory !== "all") {
       list = list.filter((p) => p.category === selectedCategory);
+    }
+
+    // In Stock Only filter
+    if (onlyInStock) {
+      list = list.filter((p) => !p.isOutOfStock);
     }
 
     // Search query
@@ -49,23 +55,26 @@ export default function ShopPage({
     }
 
     return list;
-  }, [products, selectedCategory, searchQuery, sortBy, priceMax]);
+  }, [products, selectedCategory, onlyInStock, searchQuery, sortBy, priceMax]);
+
+  const inStockCount = products.filter((p) => !p.isOutOfStock).length;
+  const outOfStockCount = products.filter((p) => p.isOutOfStock).length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       {/* Breadcrumb & Title */}
       <div className="mb-6">
-        <div className="text-xs text-neutral-400 mb-1">Home / Shop Catalog</div>
+        <div className="text-xs text-neutral-400 mb-1">Home / Footwear Catalog</div>
         <h1 className="font-serif text-3xl sm:text-4xl text-neutral-900">
           Ladies Footwear Collection
         </h1>
         <p className="text-xs text-neutral-500 mt-1">
-          Showing {filteredProducts.length} handcrafted shoes with Cash on Delivery nationwide
+          Showing {filteredProducts.length} handcrafted shoes ({inStockCount} In Stock, {outOfStockCount} Sold Out)
         </p>
       </div>
 
       {/* Filter and Control Bar */}
-      <div className="bg-neutral-50 border border-gray-200 rounded-2xl p-4 sm:p-5 mb-8 space-y-4">
+      <div className="bg-neutral-50 border border-gray-200 rounded-2xl p-4 sm:p-5 mb-8 space-y-4 shadow-xs">
         {/* Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <button
@@ -97,19 +106,36 @@ export default function ShopPage({
           })}
         </div>
 
-        {/* Search, Sort, Price Filter row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-gray-200">
+        {/* Search, Sort, In-Stock, Price Filter row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-gray-200">
           {/* Search Box */}
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
             <input
               type="text"
-              placeholder="Search shoes by name or SKU..."
+              placeholder="Search by shoe name or SKU..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full text-xs pl-9 pr-3 py-2.5 bg-white border border-gray-300 rounded-lg outline-none focus:border-pink-600"
             />
           </div>
+
+          {/* In Stock Only Checkbox Button */}
+          <button
+            onClick={() => setOnlyInStock(!onlyInStock)}
+            className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-xs font-semibold transition-all ${
+              onlyInStock
+                ? "bg-pink-50 border-pink-600 text-pink-700 font-bold"
+                : "bg-white border-gray-300 text-neutral-700 hover:border-neutral-900"
+            }`}
+          >
+            {onlyInStock ? (
+              <CheckSquare size={16} className="text-pink-600" />
+            ) : (
+              <Square size={16} className="text-neutral-400" />
+            )}
+            <span>In Stock Only ({inStockCount})</span>
+          </button>
 
           {/* Sort Dropdown */}
           <div className="flex items-center gap-2">
@@ -122,7 +148,7 @@ export default function ShopPage({
               <option value="featured">Featured / Trending</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
+              <option value="rating">Highest Customer Rated</option>
             </select>
           </div>
 
@@ -152,12 +178,13 @@ export default function ShopPage({
       {filteredProducts.length === 0 ? (
         <div className="py-20 text-center bg-gray-50 rounded-2xl border border-gray-200 p-8">
           <p className="text-base font-semibold text-neutral-800">No shoes matched your current filters.</p>
-          <p className="text-xs text-neutral-500 mt-1">Try resetting the search query or adjusting your price slider.</p>
+          <p className="text-xs text-neutral-500 mt-1">Try turning off "In Stock Only" or adjusting your price slider.</p>
           <button
             onClick={() => {
               onSelectCategory("all");
               setSearchQuery("");
               setPriceMax(6000);
+              setOnlyInStock(false);
             }}
             className="mt-4 px-5 py-2.5 bg-neutral-900 text-white text-xs font-semibold rounded-lg hover:bg-pink-600 transition-colors"
           >
