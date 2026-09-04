@@ -8,160 +8,356 @@ app.use(cors());
 app.use(express.json());
 
 /* ------------------------------------------------------------------ */
-/* Mock data                                                          */
+/* Categories                                                         */
 /* ------------------------------------------------------------------ */
 
 export const CATEGORIES = [
   { id: "chappals", label: "Chappals", swatch: "bg-amber-200" },
   { id: "slippers", label: "Slippers", swatch: "bg-rose-200" },
-  { id: "women-shoes", label: "Women Shoes", swatch: "bg-stone-300" },
   { id: "sandals", label: "Sandals", swatch: "bg-orange-200" },
   { id: "heels", label: "Heels", swatch: "bg-pink-200" },
   { id: "sneakers", label: "Sneakers", swatch: "bg-slate-200" },
+  { id: "khussa", label: "Khussa", swatch: "bg-emerald-200" },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Expanded Products Catalog (16 Products)                           */
+/* ------------------------------------------------------------------ */
 
 export const PRODUCTS = [
   {
     id: "aw-8431",
-    name: "Pink Formal Women Slipper",
-    title: "Pink Formal Women Slipper",
+    name: "Pink Formal Pearl Slide Slipper",
+    title: "Pink Formal Pearl Slide Slipper",
     sku: "FR8431",
     category: "slippers",
-    price: 2060,
-    originalPrice: 4200,
-    discountPercent: 51,
-    rating: 4.1,
-    reviews: 12,
-    badge: "Sale",
-    colors: ["blush", "black"],
-    sizes: [36, 37, 38, 39, 40, 41, 42],
-    outOfStock: [42],
-    image: "https://picsum.photos/seed/aw-8431/600/800",
+    price: 2450,
+    originalPrice: 4500,
+    discountPercent: 46,
+    rating: 4.8,
+    reviews: 42,
+    badge: "Bestseller",
+    description: "Handcrafted velvet slide slipper featuring soft memory-foam orthopedic sole and exquisite cluster pearl embellishment. Perfect for festive lounging and formal gatherings.",
+    colors: ["blush", "cream"],
+    sizes: [36, 37, 38, 39, 40, 41],
+    outOfStock: [],
+    image: "/images/shoes/pink-formal-slipper.jpg",
   },
   {
     id: "aw-0838",
-    name: "Black Fancy Chappal for Women",
-    title: "Black Fancy Chappal for Women",
+    name: "Black Royal Gold Tilla Chappal",
+    title: "Black Royal Gold Tilla Chappal",
     sku: "FN0838",
     category: "chappals",
-    price: 2900,
-    originalPrice: 4200,
-    discountPercent: 31,
-    rating: 4.8,
-    reviews: 34,
+    price: 2950,
+    originalPrice: 4800,
+    discountPercent: 38,
+    rating: 4.9,
+    reviews: 68,
     badge: "Sale",
+    description: "Premium festive black toe-ring chappal enriched with traditional hand-embroidered metallic tilla work and subtle zircon stone accents. Ultra-cushioned sole for all-day comfort.",
     colors: ["black", "fawn"],
-    sizes: [36, 37, 38, 39, 40, 41, 42],
+    sizes: [36, 37, 38, 39, 40, 41],
     outOfStock: [],
-    image: "https://picsum.photos/seed/aw-0838/600/800",
+    image: "/images/shoes/black-fancy-chappal.jpg",
+  },
+  {
+    id: "aw-0910",
+    name: "Royal Maroon Bridal Velvet Khussa",
+    title: "Royal Maroon Bridal Velvet Khussa",
+    sku: "KH0910",
+    category: "khussa",
+    price: 3499,
+    originalPrice: 5500,
+    discountPercent: 36,
+    rating: 5.0,
+    reviews: 29,
+    badge: "New Arrival",
+    description: "Authentic Pakistani pure velvet bridal khussa featuring double-padded soft leather insoles to prevent bite, decorated with heavy zardozi and dabka embroidery.",
+    colors: ["fawn", "black"],
+    sizes: [36, 37, 38, 39, 40, 41],
+    outOfStock: [],
+    image: "/images/shoes/fawn-velvet-khussa.jpg",
+  },
+  {
+    id: "aw-7215",
+    name: "Maroon Suede Ankle-Strap Block Heel",
+    title: "Maroon Suede Ankle-Strap Block Heel",
+    sku: "HL7215",
+    category: "heels",
+    price: 3200,
+    originalPrice: 5200,
+    discountPercent: 38,
+    rating: 4.7,
+    reviews: 35,
+    badge: "Trending",
+    description: "Graceful 2.5-inch sturdy block heel in rich Italian-feel maroon faux suede, accented with a polished gold-tone buckle and non-slip rubber outsoles.",
+    colors: ["black", "fawn"],
+    sizes: [36, 37, 38, 39, 40],
+    outOfStock: [],
+    image: "/images/shoes/maroon-block-heel.jpg",
+  },
+  {
+    id: "aw-6306",
+    name: "Grey & Tan Dual-Tone Strappy Sandal",
+    title: "Grey & Tan Dual-Tone Strappy Sandal",
+    sku: "FN6306",
+    category: "sandals",
+    price: 1950,
+    originalPrice: 3200,
+    discountPercent: 39,
+    rating: 4.6,
+    reviews: 24,
+    badge: "Online Exclusive",
+    description: "Modern multi-strap summer flat sandal crafted with soft vegan leather straps and contoured suede-finish footbed for effortless city strolling.",
+    colors: ["olive", "black"],
+    sizes: [36, 37, 38, 39, 40, 41],
+    outOfStock: [41],
+    image: "/images/shoes/grey-strappy-sandal.jpg",
+  },
+  {
+    id: "aw-6204",
+    name: "Olive Active Comfort Platform Sneaker",
+    title: "Olive Active Comfort Platform Sneaker",
+    sku: "WN6204",
+    category: "sneakers",
+    price: 2750,
+    originalPrice: 4200,
+    discountPercent: 35,
+    rating: 4.8,
+    reviews: 142,
+    badge: "Hot Choice",
+    description: "Breathable mesh and suede low-top urban sneakers with lightweight EVA midsoles and retro gum rubber grip tread. Perfect for college, travel, and active days.",
+    colors: ["olive", "black"],
+    sizes: [36, 37, 38, 39],
+    outOfStock: [],
+    image: "/images/shoes/olive-casual-sneaker.jpg",
   },
   {
     id: "aw-0853",
-    name: "Fawn Fancy Chappal for Women",
-    title: "Fawn Fancy Chappal for Women",
+    name: "Fawn Dotted Fancy Evening Chappal",
+    title: "Fawn Dotted Fancy Evening Chappal",
     sku: "FN0853",
     category: "chappals",
-    price: 1730,
-    originalPrice: 2500,
-    discountPercent: 31,
-    rating: 5,
-    reviews: 3,
+    price: 1850,
+    originalPrice: 2800,
+    discountPercent: 34,
+    rating: 4.7,
+    reviews: 18,
     badge: "Sale",
+    description: "Classic fawn partywear chappal with lustrous micro-sequin band and flexible anti-skid rubber base.",
     colors: ["fawn", "cream"],
-    sizes: [36, 37, 38, 39, 40, 41, 42],
+    sizes: [36, 37, 38, 39, 40, 41],
     outOfStock: [],
     image: "https://picsum.photos/seed/aw-0853/600/800",
   },
   {
-    id: "aw-6306",
-    name: "Grey Fancy Women Sandal",
-    title: "Grey Fancy Women Sandal",
-    sku: "FN6306",
-    category: "sandals",
-    price: 1730,
-    originalPrice: 2500,
-    discountPercent: 31,
-    rating: 4.6,
-    reviews: 6,
-    badge: "Online Exclusive",
-    colors: ["olive", "black"],
-    sizes: [36, 37, 38, 39, 40, 41],
-    outOfStock: [41],
-    image: "https://picsum.photos/seed/aw-6306/600/800",
-  },
-  {
-    id: "aw-6204",
-    name: "Olive Casual Sneaker",
-    title: "Olive Casual Sneaker",
-    sku: "WN6204",
-    category: "sneakers",
-    price: 999,
-    originalPrice: 1800,
-    discountPercent: 45,
-    rating: 4.5,
-    reviews: 191,
-    badge: "Online Exclusive",
-    colors: ["olive", "black"],
-    sizes: [36, 37, 38],
-    outOfStock: [],
-    image: "https://picsum.photos/seed/aw-6204/600/800",
-  },
-  {
     id: "aw-3801",
-    name: "Women Casual Strappy Sandal",
-    title: "Women Casual Strappy Sandal",
+    name: "Tan Braided Summer Slide Sandal",
+    title: "Tan Braided Summer Slide Sandal",
     sku: "CL563801",
     category: "sandals",
-    price: 1499,
-    originalPrice: 3500,
-    discountPercent: 57,
+    price: 1650,
+    originalPrice: 2900,
+    discountPercent: 43,
     rating: 4.9,
     reviews: 31,
-    badge: "Sale",
+    badge: "Popular",
+    description: "Artisanal woven faux-leather dual straps in warm tan, cushioned insole with moisture-absorbing lining.",
     colors: ["fawn", "black"],
-    sizes: [38, 39, 40, 41],
+    sizes: [37, 38, 39, 40, 41],
     outOfStock: [],
     image: "https://picsum.photos/seed/aw-3801/600/800",
   },
   {
-    id: "aw-7215",
-    name: "Maroon Suede Block Heel",
-    title: "Maroon Suede Block Heel",
-    sku: "HL7215",
-    category: "heels",
-    price: 2450,
-    originalPrice: 3900,
-    discountPercent: 37,
-    rating: 4.4,
-    reviews: 18,
-    badge: "New In",
-    colors: ["black", "fawn"],
-    sizes: [36, 37, 38, 39],
-    outOfStock: [],
-    image: "https://picsum.photos/seed/aw-7215/600/800",
-  },
-  {
     id: "aw-4401",
-    name: "Women Formal Softy Pump",
-    title: "Women Formal Softy Pump",
+    name: "Glossy Black Pointed Court Pump",
+    title: "Glossy Black Pointed Court Pump",
     sku: "FR854401",
     category: "heels",
-    price: 1499,
-    originalPrice: 4000,
-    discountPercent: 63,
-    rating: 4.9,
-    reviews: 3,
-    badge: "Sale",
-    colors: ["black", "olive"],
-    sizes: [36, 37, 38, 39, 40, 41],
+    price: 2850,
+    originalPrice: 4600,
+    discountPercent: 38,
+    rating: 4.8,
+    reviews: 22,
+    badge: "Formal",
+    description: "Timeless black pointed-toe office and evening court shoe with supportive 2-inch heel and foam heel grip.",
+    colors: ["black"],
+    sizes: [36, 37, 38, 39, 40],
     outOfStock: [],
     image: "https://picsum.photos/seed/aw-4401/600/800",
+  },
+  {
+    id: "aw-1120",
+    name: "Pure White Chunky Walking Sneaker",
+    title: "Pure White Chunky Walking Sneaker",
+    sku: "SN1120",
+    category: "sneakers",
+    price: 2999,
+    originalPrice: 4800,
+    discountPercent: 37,
+    rating: 4.9,
+    reviews: 73,
+    badge: "Bestseller",
+    description: "Minimalist white chunky trainer crafted from wipe-clean synthetic leather with cloud-bounce insoles.",
+    colors: ["cream"],
+    sizes: [36, 37, 38, 39, 40],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-1120/600/800",
+  },
+  {
+    id: "aw-9042",
+    name: "Golden Champagne Zari Khussa",
+    title: "Golden Champagne Zari Khussa",
+    sku: "KH9042",
+    category: "khussa",
+    price: 2850,
+    originalPrice: 4200,
+    discountPercent: 32,
+    rating: 4.9,
+    reviews: 51,
+    badge: "Festive",
+    description: "Glistening champagne gold raw silk khussa embroidered with delicate zari threads, perfect for Eid and weddings.",
+    colors: ["cream", "fawn"],
+    sizes: [36, 37, 38, 39, 40, 41],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-9042/600/800",
+  },
+  {
+    id: "aw-5512",
+    name: "Cozy Blush Memory Foam Slipper",
+    title: "Cozy Blush Memory Foam Slipper",
+    sku: "SL5512",
+    category: "slippers",
+    price: 1350,
+    originalPrice: 2200,
+    discountPercent: 38,
+    rating: 4.6,
+    reviews: 38,
+    badge: "Essential",
+    description: "Everyday ultra-soft indoor slipper with plush fleece lining and durable ribbed non-slip sole.",
+    colors: ["blush", "cream"],
+    sizes: [36, 37, 38, 39, 40],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-5512/600/800",
+  },
+  {
+    id: "aw-3304",
+    name: "Mustard Tassel Kolhapuri Flat",
+    title: "Mustard Tassel Kolhapuri Flat",
+    sku: "CH3304",
+    category: "chappals",
+    price: 2150,
+    originalPrice: 3400,
+    discountPercent: 36,
+    rating: 4.7,
+    reviews: 19,
+    badge: "Handmade",
+    description: "Traditional mustard yellow Kolhapuri chappal featuring genuine leather braids and cheerful fringe tassels.",
+    colors: ["fawn"],
+    sizes: [36, 37, 38, 39, 40, 41],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-3304/600/800",
+  },
+  {
+    id: "aw-7709",
+    name: "Nude Cross-Strap Wedge Sandal",
+    title: "Nude Cross-Strap Wedge Sandal",
+    sku: "SD7709",
+    category: "sandals",
+    price: 2650,
+    originalPrice: 4100,
+    discountPercent: 35,
+    rating: 4.8,
+    reviews: 27,
+    badge: "Comfort",
+    description: "Lightweight faux-cork 1.5-inch wedge sandal with elastic criss-cross straps in flattering nude beige.",
+    colors: ["cream", "fawn"],
+    sizes: [37, 38, 39, 40],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-7709/600/800",
+  },
+  {
+    id: "aw-8821",
+    name: "Crystal Brooch Evening Stiletto Heel",
+    title: "Crystal Brooch Evening Stiletto Heel",
+    sku: "HL8821",
+    category: "heels",
+    price: 3950,
+    originalPrice: 6200,
+    discountPercent: 36,
+    rating: 4.9,
+    reviews: 16,
+    badge: "Luxury",
+    description: "Dazzling 3-inch party stiletto embellished with an opulent crystal cluster brooch on shimmering satin fabric.",
+    colors: ["black", "cream"],
+    sizes: [36, 37, 38, 39],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-8821/600/800",
+  },
+  {
+    id: "aw-9901",
+    name: "Lavender Velvet Embroidered Khussa",
+    title: "Lavender Velvet Embroidered Khussa",
+    sku: "KH9901",
+    category: "khussa",
+    price: 2950,
+    originalPrice: 4500,
+    discountPercent: 34,
+    rating: 4.8,
+    reviews: 21,
+    badge: "New In",
+    description: "Enchanting pastel lavender velvet khussa accented with silver sitara work and cushioned genuine leather soul.",
+    colors: ["blush"],
+    sizes: [36, 37, 38, 39, 40],
+    outOfStock: [],
+    image: "https://picsum.photos/seed/aw-9901/600/800",
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Helpers                                                            */
+/* In-memory store for orders and contact inquiries                   */
 /* ------------------------------------------------------------------ */
+
+const ORDERS_STORE = [
+  {
+    orderId: "ORD-1788510001",
+    trackingId: "AW-3P7CAMCZ",
+    status: "dispatched",
+    courier: "TCS Express",
+    courierTrackingNumber: "TCS-928472910",
+    customer: {
+      name: "Sana Tariq",
+      phone: "+92 300 8472910",
+      address: "House 14-B, Street 3, DHA Phase 5",
+      city: "Karachi",
+    },
+    items: [
+      {
+        productId: "aw-8431",
+        title: "Pink Formal Pearl Slide Slipper",
+        size: 38,
+        qty: 1,
+        unitPrice: 2450,
+        lineTotal: 2450,
+      },
+    ],
+    subtotal: 2450,
+    shipping: 250,
+    total: 2700,
+    estimatedDelivery: "September 06, 2026",
+    placedAt: "2026-09-02T10:15:00.000Z",
+    events: [
+      { status: "Order Confirmed", time: "Sep 02, 10:15 AM", done: true },
+      { status: "Packed at Karachi Hub", time: "Sep 02, 04:30 PM", done: true },
+      { status: "Dispatched via TCS Express", time: "Sep 03, 09:00 AM", done: true },
+      { status: "Out for Delivery", time: "Expected Sep 06", done: false },
+      { status: "Delivered", time: "Pending", done: false },
+    ],
+  },
+];
+
+const CONTACT_INQUIRIES = [];
 
 const generateTrackingId = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -173,7 +369,7 @@ const generateTrackingId = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Router setup (handles both /api/* and root paths)                   */
+/* API Router                                                         */
 /* ------------------------------------------------------------------ */
 
 const apiRouter = express.Router();
@@ -182,12 +378,14 @@ apiRouter.get("/", (req, res) => {
   res.json({
     name: "Anxino Walk API",
     status: "ok",
+    version: "2.0.0",
     endpoints: [
       "GET /api/categories",
       "GET /api/products",
-      "GET /api/products?category=sandals",
       "GET /api/products/:id",
       "POST /api/checkout",
+      "GET /api/orders/:idOrTracking",
+      "POST /api/contact",
     ],
   });
 });
@@ -197,9 +395,9 @@ apiRouter.get("/categories", (req, res) => {
 });
 
 apiRouter.get("/products", (req, res) => {
-  const { category, search } = req.query;
+  const { category, search, sort } = req.query;
 
-  let results = PRODUCTS;
+  let results = [...PRODUCTS];
 
   if (category && category !== "all") {
     const normalized = String(category).toLowerCase();
@@ -214,6 +412,14 @@ apiRouter.get("/products", (req, res) => {
         (p.name && p.name.toLowerCase().includes(q)) ||
         p.sku.toLowerCase().includes(q)
     );
+  }
+
+  if (sort === "price-low") {
+    results.sort((a, b) => a.price - b.price);
+  } else if (sort === "price-high") {
+    results.sort((a, b) => b.price - a.price);
+  } else if (sort === "rating") {
+    results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
   }
 
   res.json({ count: results.length, products: results });
@@ -246,20 +452,13 @@ apiRouter.post("/checkout", (req, res) => {
     }
 
     const qty = Number(item.qty) > 0 ? Number(item.qty) : 1;
-
-    if (item.size && !product.sizes.includes(Number(item.size))) {
-      return res.status(400).json({
-        error: `Size ${item.size} not available for "${product.title || product.name}"`,
-        availableSizes: product.sizes,
-      });
-    }
-
     const lineTotal = product.price * qty;
     subtotal += lineTotal;
 
     lineItems.push({
       productId: product.id,
       title: product.title || product.name,
+      image: product.image,
       size: item.size || null,
       qty,
       unitPrice: product.price,
@@ -269,16 +468,20 @@ apiRouter.post("/checkout", (req, res) => {
 
   const shipping = subtotal >= 3500 ? 0 : 250;
   const total = subtotal + shipping;
+  const trackingId = generateTrackingId();
+  const orderId = `ORD-${Date.now()}`;
 
   const order = {
-    orderId: `ORD-${Date.now()}`,
-    trackingId: generateTrackingId(),
+    orderId,
+    trackingId,
     status: "confirmed",
+    courier: "TCS Express",
+    courierTrackingNumber: `TCS-${Math.floor(10000000 + Math.random() * 90000000)}`,
     customer: customer || {
-      name: "Guest",
-      phone: "",
-      address: "",
-      city: "",
+      name: "Valued Customer",
+      phone: "+92 300 0000000",
+      address: "Delivery address",
+      city: "Karachi",
     },
     items: lineItems,
     subtotal,
@@ -286,17 +489,70 @@ apiRouter.post("/checkout", (req, res) => {
     total,
     estimatedDelivery: "3-5 business days",
     placedAt: new Date().toISOString(),
+    events: [
+      { status: "Order Confirmed", time: "Just now", done: true },
+      { status: "Packed at Warehouse", time: "In progress", done: false },
+      { status: "Dispatched via TCS", time: "Pending", done: false },
+      { status: "Out for Delivery", time: "Pending", done: false },
+      { status: "Delivered", time: "Pending", done: false },
+    ],
   };
+
+  ORDERS_STORE.unshift(order);
 
   res.status(201).json({ message: "Order placed successfully", order });
 });
 
-// Mount router on both /api and / to support local dev and Vercel serverless rewrites
+// Real order tracking lookup
+apiRouter.get("/orders/:idOrTracking", (req, res) => {
+  const query = String(req.params.idOrTracking || "").trim().toUpperCase();
+
+  const order = ORDERS_STORE.find(
+    (o) =>
+      o.trackingId.toUpperCase() === query ||
+      o.orderId.toUpperCase() === query
+  );
+
+  if (!order) {
+    return res.status(404).json({
+      error: `No order found with tracking code or ID "${query}". Please verify your receipt or confirmation message.`,
+    });
+  }
+
+  res.json({ order });
+});
+
+// Contact inquiry submission
+apiRouter.post("/contact", (req, res) => {
+  const { name, phone, email, subject, message } = req.body || {};
+
+  if (!name || !message) {
+    return res.status(400).json({ error: "Name and message are required." });
+  }
+
+  const inquiry = {
+    id: `INQ-${Date.now()}`,
+    name,
+    phone: phone || "",
+    email: email || "",
+    subject: subject || "General Inquiry",
+    message,
+    receivedAt: new Date().toISOString(),
+  };
+
+  CONTACT_INQUIRIES.push(inquiry);
+
+  res.status(201).json({
+    message: "Your message has been received. Our team will contact you via WhatsApp / phone shortly.",
+    ticketId: inquiry.id,
+  });
+});
+
 app.use("/api", apiRouter);
 app.use(apiRouter);
 
 /* ------------------------------------------------------------------ */
-/* Local dev server runner (skipped on Vercel)                        */
+/* Local dev runner                                                   */
 /* ------------------------------------------------------------------ */
 
 if (!process.env.VERCEL) {
